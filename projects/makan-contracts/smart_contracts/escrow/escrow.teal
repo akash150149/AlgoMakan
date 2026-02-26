@@ -1,0 +1,23 @@
+#pragma version 6
+
+global GroupSize
+int 2
+==
+assert
+
+gtxn 0 TypeEnum
+int pay
+==
+assert
+
+gtxn 1 TypeEnum
+int axfer
+==
+assert
+
+gtxn 1 AssetAmount
+int 1
+==
+assert
+
+int 1
