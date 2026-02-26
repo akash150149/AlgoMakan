@@ -1,13 +1,6 @@
 /*
   src/components/HomePage_and_components.tsx
-
-  Single-file bundle containing three components you requested:
-   - HomePage (default page that lists NFTs)
-   - NFTCard (reusable card for a property)
-   - PurchaseNFT (handles the purchase logic)
-
-  NOTE: You can split these into separate files if you prefer.
-  This uses TypeScript + React + Tailwind CSS + use-wallet-react for Algorand.
+  Fully refactored with premium design system and stateful contract integration.
 */
 
 import React, { useState } from "react";
@@ -20,7 +13,7 @@ import { RealEstateAppClient } from "../contracts/RealEstateApp";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 
 /* -------------------------------------------------------------------------- */
-/* Property Type                                                              */
+/* Types                                                                      */
 /* -------------------------------------------------------------------------- */
 export type Property = {
   id: string;
@@ -28,7 +21,7 @@ export type Property = {
   priceMicroAlgos: number;
   assetId: bigint;
   escrowAddress: string;
-  appId?: bigint; // Optional appId for stateful flow
+  appId?: bigint;
   image: string;
   description: string;
   isSold: boolean;
@@ -43,48 +36,80 @@ const initialProperties: Property[] = [
     title: "Lakeview Apartment #12",
     assetId: 755121764n,
     priceMicroAlgos: 450_000,
-    appId: 756218220n, // New Stateful App ID
+    appId: 756218220n,
     escrowAddress: "2GCUXCPBUQJKZOHWYGQ6XJJGDVOSA7PPSRM5BMHHB3MYPM7VPWEY3WUW2Q",
-    image:
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80",
-    description:
-      "2BHK apartment with a beautiful lake view. Tokenized as NFT #001.",
+    image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80",
+    description: "Elegant 2BHK with sweeping lake views and modern amenities. Tokenized on Algorand.",
     isSold: false,
   },
   {
     id: "nft-002",
     title: "Azure Horizons Villa",
-    assetId: 0n, // Placeholder: Deploy new asset
+    assetId: 0n,
     priceMicroAlgos: 1_250_000,
     escrowAddress: "PLACEHOLDER_ESCROW_ADDRESS",
     image: "/assets/beachfront_villa.png",
-    description: "Ultra-modern beachfront villa with an infinity pool and breathtaking sunset views.",
+    description: "A coastal masterpiece featuring an infinity pool and direct beach access. Ultimate luxury.",
     isSold: false,
   },
   {
     id: "nft-003",
     title: "Midnight Sky Penthouse",
-    assetId: 0n, // Placeholder
+    assetId: 0n,
     priceMicroAlgos: 2_500_000,
     escrowAddress: "PLACEHOLDER_ESCROW_ADDRESS",
     image: "/assets/penthouse_cityview.png",
-    description: "Luxury penthouse with floor-to-ceiling windows overlooking a futuristic city skyline.",
+    description: "Sky-high living with floor-to-ceiling glass and panoramic views of the futuristic city.",
     isSold: false,
   },
   {
     id: "nft-004",
     title: "Silver Pine Chalet",
-    assetId: 0n, // Placeholder
+    assetId: 0n,
     priceMicroAlgos: 950_000,
     escrowAddress: "PLACEHOLDER_ESCROW_ADDRESS",
     image: "/assets/mountain_retreat.png",
-    description: "A cozy contemporary mountain retreat surrounded by snow-covered pines and warm interiors.",
+    description: "Cozy timber and glass chalet nestled in the alpine heights. A perfect winter escape.",
     isSold: false,
   },
 ];
 
 /* -------------------------------------------------------------------------- */
-/* PurchaseNFT: Handles the purchase simulation                               */
+/* Navbar Component                                                           */
+/* -------------------------------------------------------------------------- */
+export const Navbar: React.FC<{ onConnect: () => void }> = ({ onConnect }) => {
+  const { activeAddress } = useWallet();
+
+  return (
+    <nav className="navbar">
+      <div className="navbar-content">
+        <a href="/" className="brand-logo">
+          Apna<span>Makan</span>
+        </a>
+
+        <div className="nav-actions">
+          {activeAddress ? (
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium text-gray-600 hidden sm:inline">
+                {activeAddress.slice(0, 6)}...{activeAddress.slice(-4)}
+              </span>
+              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs ring-2 ring-blue-500 ring-offset-2">
+                AL
+              </div>
+            </div>
+          ) : (
+            <button className="btn btn-primary" onClick={onConnect}>
+              Connect Wallet
+            </button>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+/* -------------------------------------------------------------------------- */
+/* PurchaseNFT Component                                                      */
 /* -------------------------------------------------------------------------- */
 export const PurchaseNFT: React.FC<{
   property: Property;
@@ -96,74 +121,47 @@ export const PurchaseNFT: React.FC<{
 
   const handleBuy = async () => {
     if (property.isSold || loading || disabled) return;
-
     if (!activeAddress) {
       alert("Please connect your wallet first");
       return;
     }
 
     const sender = activeAddress;
-
-    if (
-      !property.assetId ||
-      !property.escrowAddress ||
-      !property.priceMicroAlgos
-    ) {
-      alert("Invalid NFT configuration");
-      return;
-    }
-
-    const proceed = window.confirm(
-      `Purchase ${property.title} for ${property.priceMicroAlgos / 1e6} ALGO?`
-    );
+    const proceed = window.confirm(`Confirm purchase for ${property.priceMicroAlgos / 1e6} ALGO?`);
     if (!proceed) return;
 
     setLoading(true);
 
     try {
-      // 1) Suggested params
       const suggestedParams = await algodClient.getTransactionParams().do();
-
-      // 2) Buyer opt-in
       const optedIn = await checkOptIn(sender, property.assetId);
 
-      if (!optedIn) {
-        const optInTxn =
-          algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-            sender,
-            receiver: sender,
-            assetIndex: property.assetId,
-            amount: 0,
-            suggestedParams,
-          });
+      if (!optedIn && property.assetId !== 0n) {
+        const optInTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+          sender,
+          receiver: sender,
+          assetIndex: Number(property.assetId),
+          amount: 0,
+          suggestedParams,
+        });
 
         const signedOptInRaw = await transactionSigner([optInTxn], [0]);
-        const signedOptIn = signedOptInRaw.filter(
-          (t): t is Uint8Array => t !== null
-        );
-
-        const optInResp = await algodClient
-          .sendRawTransaction(signedOptIn)
-          .do();
-
+        const signedOptIn = signedOptInRaw.filter((t): t is Uint8Array => t !== null);
+        const optInResp = await algodClient.sendRawTransaction(signedOptIn).do();
         await algosdk.waitForConfirmation(algodClient, optInResp.txid, 4);
       }
 
-      // 3) Handle Purchase based on App or LogicSig
       if (property.appId) {
         console.log(`🚀 Using stateful app flow (${property.appId})`);
-
         const algorand = AlgorandClient.fromClients({ algod: algodClient });
-        // Set the signer globally for this account in the AlgorandClient
         algorand.account.setSigner(sender, transactionSigner);
 
         const appClient = new RealEstateAppClient({
-          appId: BigInt(property.appId), // Explicitly cast to BigInt to satisfy the client
+          appId: BigInt(property.appId),
           algorand,
           defaultSender: sender,
         });
 
-        // The stateful contract's 'buy' method expects a payment transaction
         const paymentTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
           sender,
           receiver: appClient.appAddress,
@@ -171,59 +169,18 @@ export const PurchaseNFT: React.FC<{
           suggestedParams,
         });
 
-        // Pass the transaction directly; AlgorandClient will use the signer we set above
         const result = await appClient.send.buy({
-          args: {
-            payment: paymentTxn
-          }
+          args: { payment: paymentTxn }
         });
 
-        console.log("✅ Purchase successful via stateful contract:", result.transaction.txID());
+        console.log("✅ Purchase successful:", result.transaction.txID());
       } else {
-        // --- LEGACY LOGICSIG FLOW ---
-        console.log("⚠️ Using legacy LogicSig flow (requires backend)");
-
-        // 3) Payment txn (buyer → escrow)
-        const paymentTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-          sender,
-          receiver: property.escrowAddress,
-          amount: property.priceMicroAlgos,
-          suggestedParams,
-        });
-
-        // 4) Asset txn (escrow → buyer)
-        const assetTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-          sender: property.escrowAddress,
-          receiver: sender,
-          assetIndex: property.assetId,
-          amount: 1,
-          suggestedParams,
-        });
-
-        algosdk.assignGroupID([paymentTxn, assetTxn]);
-
-        const res = await fetch("http://localhost:4000/sign-asset", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            txnBase64: Buffer.from(assetTxn.toByte()).toString("base64"),
-          }),
-        });
-
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(`Escrow signing failed: ${text}`);
-        }
-
-        const { signedTxn } = await res.json();
-        const signedAssetTxn = Uint8Array.from(Buffer.from(signedTxn, "base64"));
-        const [signedPaymentTxn] = await transactionSigner([paymentTxn], [0]);
-
-        await algodClient.sendRawTransaction([signedPaymentTxn, signedAssetTxn]).do();
+        alert("This listing currently uses a legacy LogicSig flow which requires a local backend server to be running.");
+        throw new Error("Legacy flow requires backend server");
       }
 
       onPurchased(property.id);
-      alert("NFT purchased successfully on TestNet");
+      alert("Congratulations! You now own this property on the Algorand TestNet.");
     } catch (err) {
       console.error("PURCHASE ERROR:", err);
       alert(`Transaction failed: ${err instanceof Error ? err.message : String(err)}`);
@@ -236,19 +193,15 @@ export const PurchaseNFT: React.FC<{
     <button
       onClick={handleBuy}
       disabled={loading || disabled || property.isSold}
-      className="px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed bg-blue-600 text-white hover:bg-blue-700"
+      className={`btn ${property.isSold ? 'btn-outline' : 'btn-primary'} w-full sm:w-auto`}
     >
-      {loading
-        ? "Processing..."
-        : property.isSold
-          ? "Unavailable"
-          : "Purchase"}
+      {loading ? "Processing..." : property.isSold ? "Sold Out" : "Buy Property"}
     </button>
   );
 };
 
 /* -------------------------------------------------------------------------- */
-/* NFTCard: Displays a single property card                                   */
+/* NFTCard Component                                                          */
 /* -------------------------------------------------------------------------- */
 export const NFTCard: React.FC<{
   property: Property;
@@ -256,51 +209,34 @@ export const NFTCard: React.FC<{
   processingId?: string | null;
 }> = ({ property, onPurchase, processingId = null }) => {
   return (
-    <article className="bg-white rounded-2xl shadow-sm overflow-hidden border">
-      <div className="h-48 bg-gray-200 overflow-hidden">
+    <article className="nft-card">
+      <div className="nft-image-wrapper">
         <img
           src={property.image}
           alt={property.title}
-          className="w-full h-full object-cover"
+          className="nft-image"
         />
       </div>
 
-      <div className="p-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <h2 className="text-lg font-medium">{property.title}</h2>
-            <p className="text-xs text-gray-500 mt-1">{property.id}</p>
-          </div>
-          <div className="text-right">
-            <div className="text-sm font-semibold">
-              {property.priceMicroAlgos / 1e6} ALGO
-            </div>
-            <div className="text-xs text-gray-400">Price</div>
-          </div>
+      <div className="nft-info">
+        <div className="flex justify-between items-start mb-2">
+          <h2 className="nft-title">{property.title}</h2>
+          <span className={`status-badge ${property.isSold ? 'status-sold' : 'status-available'}`}>
+            {property.isSold ? 'Sold' : 'Available'}
+          </span>
         </div>
 
-        <p className="mt-3 text-sm text-gray-600">{property.description}</p>
+        <p className="text-sm text-gray-500 mb-4 line-clamp-2">{property.description}</p>
 
-        <div className="mt-4 flex items-center justify-between">
-          <div>
-            {property.isSold ? (
-              <span className="inline-block px-3 py-1 text-xs rounded-full bg-red-100 text-red-700">
-                SOLD
-              </span>
-            ) : (
-              <span className="inline-block px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
-                AVAILABLE
-              </span>
-            )}
+        <div className="mt-auto border-t pt-4 flex flex-wrap gap-4 justify-between items-center">
+          <div className="price-value">
+            {property.priceMicroAlgos / 1e6} <span className="text-xs uppercase text-gray-400">ALGO</span>
           </div>
-
-          <div>
-            <PurchaseNFT
-              property={property}
-              onPurchased={onPurchase}
-              disabled={processingId === property.id}
-            />
-          </div>
+          <PurchaseNFT
+            property={property}
+            onPurchased={onPurchase}
+            disabled={processingId === property.id}
+          />
         </div>
       </div>
     </article>
@@ -308,13 +244,12 @@ export const NFTCard: React.FC<{
 };
 
 /* -------------------------------------------------------------------------- */
-/* HomePage: Lists all properties + shows wallet connect                      */
+/* HomePage Component                                                         */
 /* -------------------------------------------------------------------------- */
 export const HomePage: React.FC = () => {
-  const { activeAddress } = useWallet();
   const [openWalletModal, setOpenWalletModal] = useState(false);
   const [properties, setProperties] = useState<Property[]>(initialProperties);
-  const [processingId, setProcessingId] = useState<string | null>(null);
+  const [processingId] = useState<string | null>(null);
 
   const toggleWalletModal = () => setOpenWalletModal(!openWalletModal);
 
@@ -325,31 +260,18 @@ export const HomePage: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-semibold">ApnaMakan — Properties</h1>
-            <p className="text-sm text-gray-600 mt-1">
-              TestNet NFT Marketplace. Using stateful contract for secure purchases.
-            </p>
-          </div>
+    <div className="min-h-screen">
+      <Navbar onConnect={toggleWalletModal} />
 
-          <div className="flex items-center gap-2">
-            {activeAddress ? (
-              <div className="text-sm px-3 py-1 border rounded">
-                Connected: {activeAddress.slice(0, 8)}...
-                {activeAddress.slice(-6)}
-              </div>
-            ) : (
-              <button className="btn btn-primary" onClick={toggleWalletModal}>
-                Connect Wallet
-              </button>
-            )}
-          </div>
+      <main className="main-container">
+        <header className="section-header">
+          <h1 className="section-title">Verified Property <span>Collectibles</span></h1>
+          <p className="section-subtitle">
+            Secure your real estate investments as digital assets on the world's most robust blockchain.
+          </p>
         </header>
 
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section className="property-grid">
           {properties.map((p) => (
             <NFTCard
               key={p.id}
@@ -360,14 +282,13 @@ export const HomePage: React.FC = () => {
           ))}
         </section>
 
-        <footer className="mt-8 text-xs text-gray-500">
-          Note: This app uses stateful smart contracts on Algorand TestNet.
+        <footer className="mt-16 pt-8 border-t text-center text-sm text-gray-500">
+          <p>© 2026 ApnaMakan Real Estate Marketplace • Powered by Algorand</p>
         </footer>
-      </div>
+      </main>
 
-      {/* Wallet modal */}
       <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
-    </main>
+    </div>
   );
 };
 
