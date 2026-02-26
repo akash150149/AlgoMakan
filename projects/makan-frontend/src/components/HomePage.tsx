@@ -51,6 +51,36 @@ const initialProperties: Property[] = [
       "2BHK apartment with a beautiful lake view. Tokenized as NFT #001.",
     isSold: false,
   },
+  {
+    id: "nft-002",
+    title: "Azure Horizons Villa",
+    assetId: 0n, // Placeholder: Deploy new asset
+    priceMicroAlgos: 1_250_000,
+    escrowAddress: "PLACEHOLDER_ESCROW_ADDRESS",
+    image: "/assets/beachfront_villa.png",
+    description: "Ultra-modern beachfront villa with an infinity pool and breathtaking sunset views.",
+    isSold: false,
+  },
+  {
+    id: "nft-003",
+    title: "Midnight Sky Penthouse",
+    assetId: 0n, // Placeholder
+    priceMicroAlgos: 2_500_000,
+    escrowAddress: "PLACEHOLDER_ESCROW_ADDRESS",
+    image: "/assets/penthouse_cityview.png",
+    description: "Luxury penthouse with floor-to-ceiling windows overlooking a futuristic city skyline.",
+    isSold: false,
+  },
+  {
+    id: "nft-004",
+    title: "Silver Pine Chalet",
+    assetId: 0n, // Placeholder
+    priceMicroAlgos: 950_000,
+    escrowAddress: "PLACEHOLDER_ESCROW_ADDRESS",
+    image: "/assets/mountain_retreat.png",
+    description: "A cozy contemporary mountain retreat surrounded by snow-covered pines and warm interiors.",
+    isSold: false,
+  },
 ];
 
 /* -------------------------------------------------------------------------- */
