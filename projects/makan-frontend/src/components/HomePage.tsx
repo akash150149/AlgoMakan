@@ -45,9 +45,10 @@ const initialProperties: Property[] = [
   {
     id: "nft-002",
     title: "Azure Horizons Villa",
-    assetId: 0n,
+    assetId: 756222307n,
     priceMicroAlgos: 1_250_000,
-    escrowAddress: "PLACEHOLDER_ESCROW_ADDRESS",
+    appId: 756222265n,
+    escrowAddress: "XC5DXZD3NJEVWI4AX", // Derived for informative purpose
     image: "/assets/beachfront_villa.png",
     description: "A coastal masterpiece featuring an infinity pool and direct beach access. Ultimate luxury.",
     isSold: false,
@@ -55,9 +56,10 @@ const initialProperties: Property[] = [
   {
     id: "nft-003",
     title: "Midnight Sky Penthouse",
-    assetId: 0n,
+    assetId: 756222317n,
     priceMicroAlgos: 2_500_000,
-    escrowAddress: "PLACEHOLDER_ESCROW_ADDRESS",
+    appId: 756222269n,
+    escrowAddress: "XFUZ2QVR3FJ4MNI4MD6DQPRXAL2N6WCSGQW5X",
     image: "/assets/penthouse_cityview.png",
     description: "Sky-high living with floor-to-ceiling glass and panoramic views of the futuristic city.",
     isSold: false,
@@ -65,9 +67,10 @@ const initialProperties: Property[] = [
   {
     id: "nft-004",
     title: "Silver Pine Chalet",
-    assetId: 0n,
+    assetId: 756222318n,
     priceMicroAlgos: 950_000,
-    escrowAddress: "PLACEHOLDER_ESCROW_ADDRESS",
+    appId: 756222282n,
+    escrowAddress: "MSCFIIA2HUBN5Y53STXXTTJQIZH42T6AORMM",
     image: "/assets/mountain_retreat.png",
     description: "Cozy timber and glass chalet nestled in the alpine heights. A perfect winter escape.",
     isSold: false,
