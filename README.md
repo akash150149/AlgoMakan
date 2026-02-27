@@ -84,6 +84,20 @@ ApnaMakan uses automatically generated TypeScript clients for interacting with t
 
 ---
 
+## 🔮 Future Roadmap
+
+We are committed to evolving AlgoMakan into a comprehensive decentralized real estate ecosystem. Our upcoming focus areas include:
+
+- **Dashboards**: Implementation of dedicated Admin and User dashboards for streamlined property management and portfolio tracking.
+- **UI/UX Enhancements**: Continuous refinement of the interface for maximum responsiveness and a premium, intuitive user experience.
+- **Fractional Ownership**: Enable co-investment by allowing property NFTs to be split into smaller, tradable tokens.
+- **On-Chain Rentals**: Smart contract-based automatic rent collection and distribution for property owners.
+- **Decentralized Storage (IPFS)**: Migration of property deeds, legal documents, and high-fidelity media to IPFS for permanent, tamper-proof storage.
+- **AI-Powered Valuations**: Integration of AI models to provide real-time property price estimation based on on-chain and market data.
+- **Community Governance (DAO)**: Implementing a decentralized autonomous organization structure to allow the community to verify and curate listings.
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License.
