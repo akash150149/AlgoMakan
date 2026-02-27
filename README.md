@@ -11,14 +11,33 @@ The following diagram illustrates the interaction between the user, the frontend
 ```mermaid
 graph TD
     User([User]) -->|Connects Wallet| FE[Frontend - React/Vite]
-    FE -->|Browses Properties| DB[(Application State)]
-    User -->|Initiates Purchase| FE
-    FE -->|Requests Signature| Wallet{Mobile Wallet - Pera/Defly}
-    Wallet -->|Signs & Submits| Algorand[Algorand Network]
-    Algorand -->|Triggers App Call| SC[Real Estate Smart Contract]
-    SC -->|Escrow Logic| Transfer{NFT Transfer}
-    Transfer -->|Asset Move| User
-    Transfer -->|Payment Release| Seller[Property Seller]
+    FE -->|Fetches Properties| Algorand[(Algorand Indexer/Node)]
+    
+    subgraph Purchase Flow
+        User -->|Click 'Buy'| FE
+        FE -->|Check Account Opt-in| Algorand
+        
+        Algorand -->|Not Opted-in| OptIn[Sign Asset Opt-in Txn]
+        OptIn -->|Confirmed| FE
+        
+        FE -->|Compose Atomic Group| Txns[Payment + App Call]
+        Txns -->|Request Signatures| Wallet{Mobile Wallet - Pera}
+        Wallet -->|Sign & Broadcast| Algorand
+    end
+
+    subgraph On-Chain Validation & Execution
+        Algorand -->|Atomic Txn Received| SC[Real Estate Smart Contract]
+        SC -->|Verify Payment Amount| Valid{Validation}
+        Valid -->|FAIL: Revert| Error[Transaction Rejected]
+        Valid -->|PASS: Success| Logic[Execute Escrow Logic]
+        
+        Logic -->|1. NFT Asset Move| User
+        Logic -->|2. ALGO Payment Release| Seller[Property Seller]
+        Logic -->|3. Global State Update| Sold[Mark Property as Sold]
+    end
+
+    Sold -->|Indexer Update| FE
+    FE -->|Display NFT in Portfolio| User
 ```
 
 ---
