@@ -1,6 +1,6 @@
-# ApnaMakan: Decentralized Real Estate Marketplace
+# AlgoMakan: Decentralized Real Estate Marketplace
 
-ApnaMakan is a premium real estate marketplace built on the Algorand blockchain. It enables users to browse, invest in, and own property collectibles (NFTs) with the security and transparency of decentralized technology.
+AlgoMakan is a premium real estate marketplace built on the Algorand blockchain. It enables users to browse, invest in, and own property collectibles (NFTs) with the security and transparency of decentralized technology.
 
 ---
 
@@ -27,8 +27,8 @@ graph TD
 
 - **Real Estate NFTs**: Each property is represented as a unique Asset (ASA) on Algorand.
 - **Secure Escrow**: Smart contracts manage the exchange of ALGO for NFT assets, ensuring trustless transactions.
-- **Premium UI/UX**: A responsive, modern interface designed for high-end real estate presentation.
-- **Seamless Wallet Integration**: Supports major Algorand wallets like Pera, Defly, and Lute.
+- **UI/UX**: A responsive interface designed for real estate presentation.
+- **Seamless Wallet Integration**: Supports Algorand wallets like Pera.
 
 ---
 
@@ -37,7 +37,7 @@ graph TD
 This project is a monorepo managed with **AlgoKit**.
 
 - **[Projects](projects/)**:
-  - **[makan-contracts](projects/makan-contracts/)**: Python-based smart contracts (Tealish/PuYA).
+  - **[makan-contracts](projects/makan-contracts/)**: TypeScript-based smart contracts (Algorand TypeScript/PuYA TS).
   - **[makan-frontend](projects/makan-frontend/)**: React application with TypeScript and Tailwind CSS.
 
 ---
@@ -46,8 +46,12 @@ This project is a monorepo managed with **AlgoKit**.
 
 ### Prerequisites
 
-- [Docker](https://www.docker.com/) (Must be running)
-- [AlgoKit CLI](https://github.com/algorandfoundation/algokit-cli)
+- **Node.js** (v22.0 or higher)
+- **npm** (v9.0 or higher)
+- **AlgoKit CLI** (v2.6.0 or higher)
+- **Git**
+- **Algorand Testnet Account**: A deployer account with enough Testnet ALGO (get some from the [Algorand Dispenser](https://bank.testnet.algodev.network/)).
+- **Docker** (Optional: Only required if you wish to run a local development node/LocalNet).
 
 ### Initial Setup
 
@@ -69,8 +73,14 @@ This project is a monorepo managed with **AlgoKit**.
    ```
 
 4. **Start local network** (Optional):
+   Only required if you are developing locally.
    ```bash
    algokit localnet start
+   ```
+
+5. **Deploy to Testnet**:
+   ```bash
+   algokit project deploy testnet
    ```
 
 ---
