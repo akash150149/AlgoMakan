@@ -1,45 +1,91 @@
-# makan
+# ApnaMakan: Decentralized Real Estate Marketplace
 
-This starter full stack project has been generated using AlgoKit. See below for default getting started instructions.
+ApnaMakan is a premium real estate marketplace built on the Algorand blockchain. It enables users to browse, invest in, and own property collectibles (NFTs) with the security and transparency of decentralized technology.
 
-## Setup
+---
 
-### Initial setup
-1. Clone this repository to your local machine.
-2. Ensure [Docker](https://www.docker.com/) is installed and operational. Then, install `AlgoKit` following this [guide](https://github.com/algorandfoundation/algokit-cli#install).
-3. Run `algokit project bootstrap all` in the project directory. This command sets up your environment by installing necessary dependencies, setting up a Python virtual environment, and preparing your `.env` file.
-4. In the case of a smart contract project, execute `algokit generate env-file -a target_network localnet` from the `makan-contracts` directory to create a `.env.localnet` file with default configuration for `localnet`.
-5. To build your project, execute `algokit project run build`. This compiles your project and prepares it for running.
-6. For project-specific instructions, refer to the READMEs of the child projects:
-   - Smart Contracts: [makan-contracts](projects/makan-contracts/README.md)
-   - Frontend Application: [makan-frontend](projects/makan-frontend/README.md)
+## 🏗 Workflow Diagram
 
-> This project is structured as a monorepo, refer to the [documentation](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/features/project/run.md) to learn more about custom command orchestration via `algokit project run`.
+The following diagram illustrates the interaction between the user, the frontend application, and the Algorand blockchain ecosystem during a property purchase.
 
-### Subsequently
+```mermaid
+graph TD
+    User([User]) -->|Connects Wallet| FE[Frontend - React/Vite]
+    FE -->|Browses Properties| DB[(Application State)]
+    User -->|Initiates Purchase| FE
+    FE -->|Requests Signature| Wallet{Mobile Wallet - Pera/Defly}
+    Wallet -->|Signs & Submits| Algorand[Algorand Network]
+    Algorand -->|Triggers App Call| SC[Real Estate Smart Contract]
+    SC -->|Escrow Logic| Transfer{NFT Transfer}
+    Transfer -->|Asset Move| User
+    Transfer -->|Payment Release| Seller[Property Seller]
+```
 
-1. If you update to the latest source code and there are new dependencies, you will need to run `algokit project bootstrap all` again.
-2. Follow step 3 above.
+---
 
-## Tools
+## 🌟 Key Features
 
-This project makes use of Python and React to build Algorand smart contracts and to provide a base project configuration to develop frontends for your Algorand dApps and interactions with smart contracts. The following tools are in use:
+- **Real Estate NFTs**: Each property is represented as a unique Asset (ASA) on Algorand.
+- **Secure Escrow**: Smart contracts manage the exchange of ALGO for NFT assets, ensuring trustless transactions.
+- **Premium UI/UX**: A responsive, modern interface designed for high-end real estate presentation.
+- **Seamless Wallet Integration**: Supports major Algorand wallets like Pera, Defly, and Lute.
 
-- Algorand, AlgoKit, and AlgoKit Utils
-- Python dependencies including Poetry, Black, Ruff or Flake8, mypy, pytest, and pip-audit
-- React and related dependencies including AlgoKit Utils, Tailwind CSS, daisyUI, use-wallet, npm, jest, playwright, Prettier, ESLint, and Github Actions workflows for build validation
+---
 
-### VS Code
+## 📂 Project Structure
 
-It has also been configured to have a productive dev experience out of the box in [VS Code](https://code.visualstudio.com/), see the [backend .vscode](./backend/.vscode) and [frontend .vscode](./frontend/.vscode) folders for more details.
+This project is a monorepo managed with **AlgoKit**.
 
-## Integrating with smart contracts and application clients
+- **[Projects](projects/)**:
+  - **[makan-contracts](projects/makan-contracts/)**: Python-based smart contracts (Tealish/PuYA).
+  - **[makan-frontend](projects/makan-frontend/)**: React application with TypeScript and Tailwind CSS.
 
-Refer to the [makan-contracts](projects/makan-contracts/README.md) folder for overview of working with smart contracts, [projects/makan-frontend](projects/makan-frontend/README.md) for overview of the React project and the [projects/makan-frontend/contracts](projects/makan-frontend/src/contracts/README.md) folder for README on adding new smart contracts from backend as application clients on your frontend. The templates provided in these folders will help you get started.
-When you compile and generate smart contract artifacts, your frontend component will automatically generate typescript application clients from smart contract artifacts and move them to `frontend/src/contracts` folder, see [`generate:app-clients` in package.json](projects/makan-frontend/package.json). Afterwards, you are free to import and use them in your frontend application.
+---
 
-The frontend starter also provides an example of interactions with your ScontrClient in [`AppCalls.tsx`](projects/makan-frontend/src/components/AppCalls.tsx) component by default.
+## 🚀 Getting Started
 
-## Next Steps
+### Prerequisites
 
-You can take this project and customize it to build your own decentralized applications on Algorand. Make sure to understand how to use AlgoKit and how to write smart contracts for Algorand before you start.
+- [Docker](https://www.docker.com/) (Must be running)
+- [AlgoKit CLI](https://github.com/algorandfoundation/algokit-cli)
+
+### Initial Setup
+
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd makan
+   ```
+
+2. **Bootstrap the project**:
+   This installs dependencies and sets up virtual environments.
+   ```bash
+   algokit project bootstrap all
+   ```
+
+3. **Build the project**:
+   ```bash
+   algokit project run build
+   ```
+
+4. **Start local network** (Optional):
+   ```bash
+   algokit localnet start
+   ```
+
+---
+
+## 🛠 Integrating with Smart Contracts
+
+ApnaMakan uses automatically generated TypeScript clients for interacting with the backend. 
+
+- When you compile smart contracts in `makan-contracts`, artifacts are generated.
+- `makan-frontend` automatically picks up these artifacts to create TypeSafe application clients.
+- Review [`projects/makan-frontend/package.json`](projects/makan-frontend/package.json) for the `generate:app-clients` command.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+

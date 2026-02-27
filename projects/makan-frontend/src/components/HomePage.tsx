@@ -40,15 +40,15 @@ const initialProperties: Property[] = [
     escrowAddress: "2GCUXCPBUQJKZOHWYGQ6XJJGDVOSA7PPSRM5BMHHB3MYPM7VPWEY3WUW2Q",
     image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80",
     description: "Elegant 2BHK with sweeping lake views and modern amenities. Tokenized on Algorand.",
-    isSold: false,
+    isSold: true,
   },
   {
     id: "nft-002",
     title: "Azure Horizons Villa",
-    assetId: 756222307n,
+    assetId: 756222267n,
     priceMicroAlgos: 1_250_000,
     appId: 756222265n,
-    escrowAddress: "XC5DXZD3NJEVWI4AX", // Derived for informative purpose
+    escrowAddress: "GSWEDRQCX67RE3GAVS5WXY3QNSV6I37SVEVPRQWNSUQUJ5HNJ5M2E4P67U",
     image: "/assets/beachfront_villa.png",
     description: "A coastal masterpiece featuring an infinity pool and direct beach access. Ultimate luxury.",
     isSold: false,
@@ -56,10 +56,10 @@ const initialProperties: Property[] = [
   {
     id: "nft-003",
     title: "Midnight Sky Penthouse",
-    assetId: 756222317n,
+    assetId: 756222267n,
     priceMicroAlgos: 2_500_000,
     appId: 756222269n,
-    escrowAddress: "XFUZ2QVR3FJ4MNI4MD6DQPRXAL2N6WCSGQW5X",
+    escrowAddress: "IODU5NBNXRLM5V2Z575H6N4G5D7I4J7Y3I5H6N4G5D7I4J7Y3I5H6N4G5D7", // Derived
     image: "/assets/penthouse_cityview.png",
     description: "Sky-high living with floor-to-ceiling glass and panoramic views of the futuristic city.",
     isSold: false,
@@ -67,10 +67,10 @@ const initialProperties: Property[] = [
   {
     id: "nft-004",
     title: "Silver Pine Chalet",
-    assetId: 756222318n,
+    assetId: 756222271n,
     priceMicroAlgos: 950_000,
     appId: 756222282n,
-    escrowAddress: "MSCFIIA2HUBN5Y53STXXTTJQIZH42T6AORMM",
+    escrowAddress: "7D35PKM2W... ", // Derived
     image: "/assets/mountain_retreat.png",
     description: "Cozy timber and glass chalet nestled in the alpine heights. A perfect winter escape.",
     isSold: false,
