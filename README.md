@@ -8,37 +8,7 @@ AlgoMakan is a premium real estate marketplace built on the Algorand blockchain.
 
 The following diagram illustrates the interaction between the user, the frontend application, and the Algorand blockchain ecosystem during a property purchase.
 
-```mermaid
-graph TD
-    User([User]) -->|Connects Wallet| FE[Frontend - React/Vite]
-    FE -->|Fetches Properties| Algorand[(Algorand Indexer/Node)]
-    
-    subgraph Purchase Flow
-        User -->|Click 'Buy'| FE
-        FE -->|Check Account Opt-in| Algorand
-        
-        Algorand -->|Not Opted-in| OptIn[Sign Asset Opt-in Txn]
-        OptIn -->|Confirmed| FE
-        
-        FE -->|Compose Atomic Group| Txns[Payment + App Call]
-        Txns -->|Request Signatures| Wallet{Mobile Wallet - Pera}
-        Wallet -->|Sign & Broadcast| Algorand
-    end
-
-    subgraph On-Chain Validation & Execution
-        Algorand -->|Atomic Txn Received| SC[Real Estate Smart Contract]
-        SC -->|Verify Payment Amount| Valid{Validation}
-        Valid -->|FAIL: Revert| Error[Transaction Rejected]
-        Valid -->|PASS: Success| Logic[Execute Escrow Logic]
-        
-        Logic -->|1. NFT Asset Move| User
-        Logic -->|2. ALGO Payment Release| Seller[Property Seller]
-        Logic -->|3. Global State Update| Sold[Mark Property as Sold]
-    end
-
-    Sold -->|Indexer Update| FE
-    FE -->|Display NFT in Portfolio| User
-```
+![Workflow Diagram](assets/workflow.png)
 
 ---
 
