@@ -23,7 +23,7 @@ import { TransactionComposer, AppCallMethodCall, AppMethodCallTransactionArgumen
 import { SendParams, SendSingleTransactionResult, SendAtomicTransactionComposerResults } from '@algorandfoundation/algokit-utils/types/transaction'
 import { Address, encodeAddress, modelsv2, OnApplicationComplete, Transaction, TransactionSigner } from 'algosdk'
 
-export const APP_SPEC: Arc56Contract = {"arcs":[],"name":"RealEstateApp","structs":{},"methods":[{"name":"create","desc":"Bootstrap the contract with property details\r\nTypically called by the creator/seller","args":[{"name":"assetId","type":"asset"},{"name":"price","type":"uint64"}],"returns":{"type":"void"},"events":[],"actions":{"create":["NoOp"],"call":[]}},{"name":"buy","desc":"Purchase the NFT\r\nMust be grouped with a payment transaction of the correct amount","args":[{"name":"payment","type":"pay"}],"returns":{"type":"void"},"events":[],"actions":{"create":[],"call":["NoOp"]}}],"state":{"schema":{"global":{"ints":3,"bytes":1},"local":{"ints":0,"bytes":0}},"keys":{"global":{"assetId":{"key":"YXNzZXRJZA==","keyType":"AVMString","valueType":"AVMUint64","desc":"Global state to track the NFT property"},"isSold":{"key":"aXNTb2xk","keyType":"AVMString","valueType":"AVMUint64"},"price":{"key":"cHJpY2U=","keyType":"AVMString","valueType":"AVMUint64"},"seller":{"key":"c2VsbGVy","keyType":"AVMString","valueType":"AVMBytes"}},"local":{},"box":{}},"maps":{"global":{},"local":{},"box":{}}},"source":{"approval":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBAYWxnb3JhbmRmb3VuZGF0aW9uL2FsZ29yYW5kLXR5cGVzY3JpcHQvYXJjNC9pbmRleC5kLnRzOjpDb250cmFjdC5hcHByb3ZhbFByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBpbnRjYmxvY2sgMSAwCiAgICBieXRlY2Jsb2NrICJpc1NvbGQiICJwcmljZSIKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBibnogbWFpbl9hZnRlcl9pZl9lbHNlQDIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjIyCiAgICAvLyBpc1NvbGQgPSBHbG9iYWxTdGF0ZTx1aW50NjQ+KHsgaW5pdGlhbFZhbHVlOiBVaW50NjQoMCkgfSkKICAgIGJ5dGVjXzAgLy8gImlzU29sZCIKICAgIGludGNfMSAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAoKbWFpbl9hZnRlcl9pZl9lbHNlQDI6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoxNQogICAgLy8gZXhwb3J0IGNsYXNzIFJlYWxFc3RhdGVBcHAgZXh0ZW5kcyBDb250cmFjdCB7CiAgICB0eG4gTnVtQXBwQXJncwogICAgYnogbWFpbl9hZnRlcl9pZl9lbHNlQDEwCiAgICBwdXNoYnl0ZXNzIDB4NmViMjYwYjMgMHg5NThkM2RmOSAvLyBtZXRob2QgImNyZWF0ZShhc3NldCx1aW50NjQpdm9pZCIsIG1ldGhvZCAiYnV5KHBheSl2b2lkIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggbWFpbl9jcmVhdGVfcm91dGVANSBtYWluX2J1eV9yb3V0ZUA2CgptYWluX2FmdGVyX2lmX2Vsc2VAMTA6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoxNQogICAgLy8gZXhwb3J0IGNsYXNzIFJlYWxFc3RhdGVBcHAgZXh0ZW5kcyBDb250cmFjdCB7CiAgICBpbnRjXzEgLy8gMAogICAgcmV0dXJuCgptYWluX2J1eV9yb3V0ZUA2OgogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MzkKICAgIC8vIGJ1eShwYXltZW50OiBndHhuLlBheW1lbnRUeG4pOiB2b2lkIHsKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MTUKICAgIC8vIGV4cG9ydCBjbGFzcyBSZWFsRXN0YXRlQXBwIGV4dGVuZHMgQ29udHJhY3QgewogICAgdHhuIEdyb3VwSW5kZXgKICAgIGludGNfMCAvLyAxCiAgICAtCiAgICBkdXAKICAgIGd0eG5zIFR5cGVFbnVtCiAgICBpbnRjXzAgLy8gcGF5CiAgICA9PQogICAgYXNzZXJ0IC8vIHRyYW5zYWN0aW9uIHR5cGUgaXMgcGF5CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czozOQogICAgLy8gYnV5KHBheW1lbnQ6IGd0eG4uUGF5bWVudFR4bik6IHZvaWQgewogICAgY2FsbHN1YiBidXkKICAgIGludGNfMCAvLyAxCiAgICByZXR1cm4KCm1haW5fY3JlYXRlX3JvdXRlQDU6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoyOAogICAgLy8gQGFiaW1ldGhvZCh7IG9uQ3JlYXRlOiAncmVxdWlyZScgfSkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoxNQogICAgLy8gZXhwb3J0IGNsYXNzIFJlYWxFc3RhdGVBcHAgZXh0ZW5kcyBDb250cmFjdCB7CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBkdXAKICAgIGxlbgogICAgaW50Y18wIC8vIDEKICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIGFyYzQudWludDgKICAgIGJ0b2kKICAgIHR4bmFzIEFzc2V0cwogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgZHVwCiAgICBsZW4KICAgIHB1c2hpbnQgOCAvLyA4CiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciBhcmM0LnVpbnQ2NAogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MjgKICAgIC8vIEBhYmltZXRob2QoeyBvbkNyZWF0ZTogJ3JlcXVpcmUnIH0pCiAgICBjYWxsc3ViIGNyZWF0ZQogICAgaW50Y18wIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjpSZWFsRXN0YXRlQXBwLmNyZWF0ZShhc3NldElkOiB1aW50NjQsIHByaWNlOiB1aW50NjQpIC0+IHZvaWQ6CmNyZWF0ZToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjI4LTI5CiAgICAvLyBAYWJpbWV0aG9kKHsgb25DcmVhdGU6ICdyZXF1aXJlJyB9KQogICAgLy8gY3JlYXRlKGFzc2V0SWQ6IEFzc2V0LCBwcmljZTogdWludDY0KTogdm9pZCB7CiAgICBwcm90byAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjE5CiAgICAvLyBhc3NldElkID0gR2xvYmFsU3RhdGU8dWludDY0PigpCiAgICBwdXNoYnl0ZXMgImFzc2V0SWQiCiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czozMAogICAgLy8gdGhpcy5hc3NldElkLnZhbHVlID0gYXNzZXRJZC5pZAogICAgZnJhbWVfZGlnIC0yCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MjAKICAgIC8vIHByaWNlID0gR2xvYmFsU3RhdGU8dWludDY0PigpCiAgICBieXRlY18xIC8vICJwcmljZSIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjMxCiAgICAvLyB0aGlzLnByaWNlLnZhbHVlID0gcHJpY2UKICAgIGZyYW1lX2RpZyAtMQogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjIxCiAgICAvLyBzZWxsZXIgPSBHbG9iYWxTdGF0ZTxBY2NvdW50PigpCiAgICBwdXNoYnl0ZXMgInNlbGxlciIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjMyCiAgICAvLyB0aGlzLnNlbGxlci52YWx1ZSA9IFR4bi5zZW5kZXIKICAgIHR4biBTZW5kZXIKICAgIGFwcF9nbG9iYWxfcHV0CiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czo6UmVhbEVzdGF0ZUFwcC5idXkocGF5bWVudDogdWludDY0KSAtPiB2b2lkOgpidXk6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czozOQogICAgLy8gYnV5KHBheW1lbnQ6IGd0eG4uUGF5bWVudFR4bik6IHZvaWQgewogICAgcHJvdG8gMSAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoyMgogICAgLy8gaXNTb2xkID0gR2xvYmFsU3RhdGU8dWludDY0Pih7IGluaXRpYWxWYWx1ZTogVWludDY0KDApIH0pCiAgICBpbnRjXzEgLy8gMAogICAgYnl0ZWNfMCAvLyAiaXNTb2xkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBHbG9iYWxTdGF0ZSBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjQxCiAgICAvLyBhc3NlcnQodGhpcy5pc1NvbGQudmFsdWUgPT09IFVpbnQ2NCgwKSwgJ1Byb3BlcnR5IGFscmVhZHkgc29sZCcpCiAgICAhCiAgICBhc3NlcnQgLy8gUHJvcGVydHkgYWxyZWFkeSBzb2xkCiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czo0MgogICAgLy8gYXNzZXJ0KHBheW1lbnQucmVjZWl2ZXIgPT09IEdsb2JhbC5jdXJyZW50QXBwbGljYXRpb25BZGRyZXNzLCAnUGF5bWVudCBtdXN0IGJlIHNlbnQgdG8gY29udHJhY3QnKQogICAgZnJhbWVfZGlnIC0xCiAgICBndHhucyBSZWNlaXZlcgogICAgZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKICAgID09CiAgICBhc3NlcnQgLy8gUGF5bWVudCBtdXN0IGJlIHNlbnQgdG8gY29udHJhY3QKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjQzCiAgICAvLyBhc3NlcnQocGF5bWVudC5hbW91bnQgPT09IHRoaXMucHJpY2UudmFsdWUsICdJbmNvcnJlY3QgcGF5bWVudCBhbW91bnQnKQogICAgZnJhbWVfZGlnIC0xCiAgICBndHhucyBBbW91bnQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjIwCiAgICAvLyBwcmljZSA9IEdsb2JhbFN0YXRlPHVpbnQ2ND4oKQogICAgaW50Y18xIC8vIDAKICAgIGJ5dGVjXzEgLy8gInByaWNlIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBHbG9iYWxTdGF0ZSBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjQzCiAgICAvLyBhc3NlcnQocGF5bWVudC5hbW91bnQgPT09IHRoaXMucHJpY2UudmFsdWUsICdJbmNvcnJlY3QgcGF5bWVudCBhbW91bnQnKQogICAgPT0KICAgIGFzc2VydCAvLyBJbmNvcnJlY3QgcGF5bWVudCBhbW91bnQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjQ0CiAgICAvLyBhc3NlcnQocGF5bWVudC5zZW5kZXIgPT09IFR4bi5zZW5kZXIsICdQYXltZW50IHNlbmRlciBtdXN0IGJlIHRoZSBidXllcicpCiAgICBmcmFtZV9kaWcgLTEKICAgIGd0eG5zIFNlbmRlcgogICAgdHhuIFNlbmRlcgogICAgPT0KICAgIGFzc2VydCAvLyBQYXltZW50IHNlbmRlciBtdXN0IGJlIHRoZSBidXllcgogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MjIKICAgIC8vIGlzU29sZCA9IEdsb2JhbFN0YXRlPHVpbnQ2ND4oeyBpbml0aWFsVmFsdWU6IFVpbnQ2NCgwKSB9KQogICAgYnl0ZWNfMCAvLyAiaXNTb2xkIgogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6NDcKICAgIC8vIHRoaXMuaXNTb2xkLnZhbHVlID0gVWludDY0KDEpCiAgICBpbnRjXzAgLy8gMQogICAgYXBwX2dsb2JhbF9wdXQKICAgIHJldHN1Ygo=","clear":"I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBAYWxnb3JhbmRmb3VuZGF0aW9uL2FsZ29yYW5kLXR5cGVzY3JpcHQvYmFzZS1jb250cmFjdC5kLnRzOjpCYXNlQ29udHJhY3QuY2xlYXJTdGF0ZVByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBwdXNoaW50IDEgLy8gMQogICAgcmV0dXJuCg=="},"bareActions":{"create":[],"call":[]}} as unknown as Arc56Contract
+export const APP_SPEC: Arc56Contract = { "arcs": [], "name": "RealEstateApp", "structs": {}, "methods": [{ "name": "create", "desc": "Bootstrap the contract with property details\r\nTypically called by the creator/seller", "args": [{ "name": "assetId", "type": "asset" }, { "name": "price", "type": "uint64" }], "returns": { "type": "void" }, "events": [], "actions": { "create": ["NoOp"], "call": [] } }, { "name": "buy", "desc": "Purchase the NFT\r\nMust be grouped with a payment transaction of the correct amount", "args": [{ "name": "payment", "type": "pay" }], "returns": { "type": "void" }, "events": [], "actions": { "create": [], "call": ["NoOp"] } }], "state": { "schema": { "global": { "ints": 3, "bytes": 1 }, "local": { "ints": 0, "bytes": 0 } }, "keys": { "global": { "assetId": { "key": "YXNzZXRJZA==", "keyType": "AVMString", "valueType": "AVMUint64", "desc": "Global state to track the NFT property" }, "isSold": { "key": "aXNTb2xk", "keyType": "AVMString", "valueType": "AVMUint64" }, "price": { "key": "cHJpY2U=", "keyType": "AVMString", "valueType": "AVMUint64" }, "seller": { "key": "c2VsbGVy", "keyType": "AVMString", "valueType": "AVMBytes" } }, "local": {}, "box": {} }, "maps": { "global": {}, "local": {}, "box": {} } }, "source": { "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBAYWxnb3JhbmRmb3VuZGF0aW9uL2FsZ29yYW5kLXR5cGVzY3JpcHQvYXJjNC9pbmRleC5kLnRzOjpDb250cmFjdC5hcHByb3ZhbFByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBpbnRjYmxvY2sgMSAwCiAgICBieXRlY2Jsb2NrICJpc1NvbGQiICJwcmljZSIKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBibnogbWFpbl9hZnRlcl9pZl9lbHNlQDIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjIyCiAgICAvLyBpc1NvbGQgPSBHbG9iYWxTdGF0ZTx1aW50NjQ+KHsgaW5pdGlhbFZhbHVlOiBVaW50NjQoMCkgfSkKICAgIGJ5dGVjXzAgLy8gImlzU29sZCIKICAgIGludGNfMSAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAoKbWFpbl9hZnRlcl9pZl9lbHNlQDI6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoxNQogICAgLy8gZXhwb3J0IGNsYXNzIFJlYWxFc3RhdGVBcHAgZXh0ZW5kcyBDb250cmFjdCB7CiAgICB0eG4gTnVtQXBwQXJncwogICAgYnogbWFpbl9hZnRlcl9pZl9lbHNlQDEwCiAgICBwdXNoYnl0ZXNzIDB4NmViMjYwYjMgMHg5NThkM2RmOSAvLyBtZXRob2QgImNyZWF0ZShhc3NldCx1aW50NjQpdm9pZCIsIG1ldGhvZCAiYnV5KHBheSl2b2lkIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggbWFpbl9jcmVhdGVfcm91dGVANSBtYWluX2J1eV9yb3V0ZUA2CgptYWluX2FmdGVyX2lmX2Vsc2VAMTA6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoxNQogICAgLy8gZXhwb3J0IGNsYXNzIFJlYWxFc3RhdGVBcHAgZXh0ZW5kcyBDb250cmFjdCB7CiAgICBpbnRjXzEgLy8gMAogICAgcmV0dXJuCgptYWluX2J1eV9yb3V0ZUA2OgogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MzkKICAgIC8vIGJ1eShwYXltZW50OiBndHhuLlBheW1lbnRUeG4pOiB2b2lkIHsKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MTUKICAgIC8vIGV4cG9ydCBjbGFzcyBSZWFsRXN0YXRlQXBwIGV4dGVuZHMgQ29udHJhY3QgewogICAgdHhuIEdyb3VwSW5kZXgKICAgIGludGNfMCAvLyAxCiAgICAtCiAgICBkdXAKICAgIGd0eG5zIFR5cGVFbnVtCiAgICBpbnRjXzAgLy8gcGF5CiAgICA9PQogICAgYXNzZXJ0IC8vIHRyYW5zYWN0aW9uIHR5cGUgaXMgcGF5CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czozOQogICAgLy8gYnV5KHBheW1lbnQ6IGd0eG4uUGF5bWVudFR4bik6IHZvaWQgewogICAgY2FsbHN1YiBidXkKICAgIGludGNfMCAvLyAxCiAgICByZXR1cm4KCm1haW5fY3JlYXRlX3JvdXRlQDU6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoyOAogICAgLy8gQGFiaW1ldGhvZCh7IG9uQ3JlYXRlOiAncmVxdWlyZScgfSkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoxNQogICAgLy8gZXhwb3J0IGNsYXNzIFJlYWxFc3RhdGVBcHAgZXh0ZW5kcyBDb250cmFjdCB7CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBkdXAKICAgIGxlbgogICAgaW50Y18wIC8vIDEKICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIGFyYzQudWludDgKICAgIGJ0b2kKICAgIHR4bmFzIEFzc2V0cwogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgZHVwCiAgICBsZW4KICAgIHB1c2hpbnQgOCAvLyA4CiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciBhcmM0LnVpbnQ2NAogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MjgKICAgIC8vIEBhYmltZXRob2QoeyBvbkNyZWF0ZTogJ3JlcXVpcmUnIH0pCiAgICBjYWxsc3ViIGNyZWF0ZQogICAgaW50Y18wIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjpSZWFsRXN0YXRlQXBwLmNyZWF0ZShhc3NldElkOiB1aW50NjQsIHByaWNlOiB1aW50NjQpIC0+IHZvaWQ6CmNyZWF0ZToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjI4LTI5CiAgICAvLyBAYWJpbWV0aG9kKHsgb25DcmVhdGU6ICdyZXF1aXJlJyB9KQogICAgLy8gY3JlYXRlKGFzc2V0SWQ6IEFzc2V0LCBwcmljZTogdWludDY0KTogdm9pZCB7CiAgICBwcm90byAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjE5CiAgICAvLyBhc3NldElkID0gR2xvYmFsU3RhdGU8dWludDY0PigpCiAgICBwdXNoYnl0ZXMgImFzc2V0SWQiCiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czozMAogICAgLy8gdGhpcy5hc3NldElkLnZhbHVlID0gYXNzZXRJZC5pZAogICAgZnJhbWVfZGlnIC0yCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MjAKICAgIC8vIHByaWNlID0gR2xvYmFsU3RhdGU8dWludDY0PigpCiAgICBieXRlY18xIC8vICJwcmljZSIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjMxCiAgICAvLyB0aGlzLnByaWNlLnZhbHVlID0gcHJpY2UKICAgIGZyYW1lX2RpZyAtMQogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjIxCiAgICAvLyBzZWxsZXIgPSBHbG9iYWxTdGF0ZTxBY2NvdW50PigpCiAgICBwdXNoYnl0ZXMgInNlbGxlciIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjMyCiAgICAvLyB0aGlzLnNlbGxlci52YWx1ZSA9IFR4bi5zZW5kZXIKICAgIHR4biBTZW5kZXIKICAgIGFwcF9nbG9iYWxfcHV0CiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czo6UmVhbEVzdGF0ZUFwcC5idXkocGF5bWVudDogdWludDY0KSAtPiB2b2lkOgpidXk6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czozOQogICAgLy8gYnV5KHBheW1lbnQ6IGd0eG4uUGF5bWVudFR4bik6IHZvaWQgewogICAgcHJvdG8gMSAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czoyMgogICAgLy8gaXNTb2xkID0gR2xvYmFsU3RhdGU8dWludDY0Pih7IGluaXRpYWxWYWx1ZTogVWludDY0KDApIH0pCiAgICBpbnRjXzEgLy8gMAogICAgYnl0ZWNfMCAvLyAiaXNTb2xkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBHbG9iYWxTdGF0ZSBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjQxCiAgICAvLyBhc3NlcnQodGhpcy5pc1NvbGQudmFsdWUgPT09IFVpbnQ2NCgwKSwgJ1Byb3BlcnR5IGFscmVhZHkgc29sZCcpCiAgICAhCiAgICBhc3NlcnQgLy8gUHJvcGVydHkgYWxyZWFkeSBzb2xkCiAgICAvLyBzbWFydF9jb250cmFjdHMvcmVhbF9lc3RhdGUvY29udHJhY3QuYWxnby50czo0MgogICAgLy8gYXNzZXJ0KHBheW1lbnQucmVjZWl2ZXIgPT09IEdsb2JhbC5jdXJyZW50QXBwbGljYXRpb25BZGRyZXNzLCAnUGF5bWVudCBtdXN0IGJlIHNlbnQgdG8gY29udHJhY3QnKQogICAgZnJhbWVfZGlnIC0xCiAgICBndHhucyBSZWNlaXZlcgogICAgZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKICAgID09CiAgICBhc3NlcnQgLy8gUGF5bWVudCBtdXN0IGJlIHNlbnQgdG8gY29udHJhY3QKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjQzCiAgICAvLyBhc3NlcnQocGF5bWVudC5hbW91bnQgPT09IHRoaXMucHJpY2UudmFsdWUsICdJbmNvcnJlY3QgcGF5bWVudCBhbW91bnQnKQogICAgZnJhbWVfZGlnIC0xCiAgICBndHhucyBBbW91bnQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjIwCiAgICAvLyBwcmljZSA9IEdsb2JhbFN0YXRlPHVpbnQ2ND4oKQogICAgaW50Y18xIC8vIDAKICAgIGJ5dGVjXzEgLy8gInByaWNlIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBHbG9iYWxTdGF0ZSBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjQzCiAgICAvLyBhc3NlcnQocGF5bWVudC5hbW91bnQgPT09IHRoaXMucHJpY2UudmFsdWUsICdJbmNvcnJlY3QgcGF5bWVudCBhbW91bnQnKQogICAgPT0KICAgIGFzc2VydCAvLyBJbmNvcnJlY3QgcGF5bWVudCBhbW91bnQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9yZWFsX2VzdGF0ZS9jb250cmFjdC5hbGdvLnRzOjQ0CiAgICAvLyBhc3NlcnQocGF5bWVudC5zZW5kZXIgPT09IFR4bi5zZW5kZXIsICdQYXltZW50IHNlbmRlciBtdXN0IGJlIHRoZSBidXllcicpCiAgICBmcmFtZV9kaWcgLTEKICAgIGd0eG5zIFNlbmRlcgogICAgdHhuIFNlbmRlcgogICAgPT0KICAgIGFzc2VydCAvLyBQYXltZW50IHNlbmRlciBtdXN0IGJlIHRoZSBidXllcgogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6MjIKICAgIC8vIGlzU29sZCA9IEdsb2JhbFN0YXRlPHVpbnQ2ND4oeyBpbml0aWFsVmFsdWU6IFVpbnQ2NCgwKSB9KQogICAgYnl0ZWNfMCAvLyAiaXNTb2xkIgogICAgLy8gc21hcnRfY29udHJhY3RzL3JlYWxfZXN0YXRlL2NvbnRyYWN0LmFsZ28udHM6NDcKICAgIC8vIHRoaXMuaXNTb2xkLnZhbHVlID0gVWludDY0KDEpCiAgICBpbnRjXzAgLy8gMQogICAgYXBwX2dsb2JhbF9wdXQKICAgIHJldHN1Ygo=", "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBAYWxnb3JhbmRmb3VuZGF0aW9uL2FsZ29yYW5kLXR5cGVzY3JpcHQvYmFzZS1jb250cmFjdC5kLnRzOjpCYXNlQ29udHJhY3QuY2xlYXJTdGF0ZVByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBwdXNoaW50IDEgLy8gMQogICAgcmV0dXJuCg==" }, "bareActions": { "create": [], "call": [] } } as unknown as Arc56Contract
 
 /**
  * A state record containing binary data
@@ -40,7 +40,7 @@ export interface BinaryState {
 }
 
 class BinaryStateValue implements BinaryState {
-  constructor(private value: Uint8Array | undefined) {}
+  constructor(private value: Uint8Array | undefined) { }
 
   asByteArray(): Uint8Array | undefined {
     return this.value
@@ -58,8 +58,8 @@ class BinaryStateValue implements BinaryState {
 export type Expand<T> = T extends (...args: infer A) => infer R
   ? (...args: Expand<A>) => Expand<R>
   : T extends infer O
-    ? { [K in keyof O]: O[K] }
-    : never
+  ? { [K in keyof O]: O[K] }
+  : never
 
 
 /**
@@ -103,16 +103,16 @@ export type RealEstateAppTypes = {
    * Maps method signatures / names to their argument and return types.
    */
   methods:
-    & Record<'create(asset,uint64)void' | 'create', {
-      argsObj: RealEstateAppArgs['obj']['create(asset,uint64)void']
-      argsTuple: RealEstateAppArgs['tuple']['create(asset,uint64)void']
-      returns: RealEstateAppReturns['create(asset,uint64)void']
-    }>
-    & Record<'buy(pay)void' | 'buy', {
-      argsObj: RealEstateAppArgs['obj']['buy(pay)void']
-      argsTuple: RealEstateAppArgs['tuple']['buy(pay)void']
-      returns: RealEstateAppReturns['buy(pay)void']
-    }>
+  & Record<'create(asset,uint64)void' | 'create', {
+    argsObj: RealEstateAppArgs['obj']['create(asset,uint64)void']
+    argsTuple: RealEstateAppArgs['tuple']['create(asset,uint64)void']
+    returns: RealEstateAppReturns['create(asset,uint64)void']
+  }>
+  & Record<'buy(pay)void' | 'buy', {
+    argsObj: RealEstateAppArgs['obj']['buy(pay)void']
+    argsTuple: RealEstateAppArgs['tuple']['buy(pay)void']
+    returns: RealEstateAppReturns['buy(pay)void']
+  }>
   /**
    * Defines the shape of the state of the application.
    */
@@ -139,16 +139,16 @@ export type RealEstateAppSignatures = keyof RealEstateAppTypes['methods']
 /**
  * Defines the possible abi call signatures for methods that return a non-void value.
  */
-export type RealEstateAppNonVoidMethodSignatures = keyof RealEstateAppTypes['methods'] extends infer T ? T extends keyof RealEstateAppTypes['methods'] ? MethodReturn<T> extends void ? never : T  : never : never
+export type RealEstateAppNonVoidMethodSignatures = keyof RealEstateAppTypes['methods'] extends infer T ? T extends keyof RealEstateAppTypes['methods'] ? MethodReturn<T> extends void ? never : T : never : never
 /**
  * Defines an object containing all relevant parameters for a single call to the contract.
  */
 export type CallParams<TArgs> = Expand<
   Omit<AppClientMethodCallParams, 'method' | 'args' | 'onComplete'> &
-    {
-      /** The args for the ABI method call, either as an ordered array or an object */
-      args: Expand<TArgs>
-    }
+  {
+    /** The args for the ABI method call, either as an ordered array or an object */
+    args: Expand<TArgs>
+  }
 >
 /**
  * Maps a method signature from the RealEstateApp smart contract to the method's arguments in either tuple or struct form
@@ -169,8 +169,8 @@ export type GlobalKeysState = RealEstateAppTypes['state']['global']['keys']
  * Defines supported create method params for this smart contract
  */
 export type RealEstateAppCreateCallParams =
-  | Expand<CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & {method: 'create'} & {onComplete?: OnApplicationComplete.NoOpOC} & CreateSchema>
-  | Expand<CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & {method: 'create(asset,uint64)void'} & {onComplete?: OnApplicationComplete.NoOpOC} & CreateSchema>
+  | Expand<CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & { method: 'create' } & { onComplete?: OnApplicationComplete.NoOpOC } & CreateSchema>
+  | Expand<CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & { method: 'create(asset,uint64)void' } & { onComplete?: OnApplicationComplete.NoOpOC } & CreateSchema>
 /**
  * Defines arguments required for the deploy method.
  */
@@ -191,8 +191,8 @@ export abstract class RealEstateAppParamsFactory {
    */
   static get create() {
     return {
-      _resolveByMethod<TParams extends RealEstateAppCreateCallParams & {method: string}>(params: TParams) {
-        switch(params.method) {
+      _resolveByMethod<TParams extends RealEstateAppCreateCallParams & { method: string }>(params: TParams) {
+        switch (params.method) {
           case 'create':
           case 'create(asset,uint64)void':
             return RealEstateAppParamsFactory.create.create(params)
@@ -206,7 +206,7 @@ export abstract class RealEstateAppParamsFactory {
        * @param params Parameters for the call
        * @returns An `AppClientMethodCallParams` object for the call
        */
-      create(params: CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & AppClientCompilationParams & {onComplete?: OnApplicationComplete.NoOpOC}): AppClientMethodCallParams & AppClientCompilationParams & {onComplete?: OnApplicationComplete.NoOpOC} {
+      create(params: CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & AppClientCompilationParams & { onComplete?: OnApplicationComplete.NoOpOC }): AppClientMethodCallParams & AppClientCompilationParams & { onComplete?: OnApplicationComplete.NoOpOC } {
         return {
           ...params,
           method: 'create(asset,uint64)void' as const,
@@ -255,22 +255,22 @@ export class RealEstateAppFactory {
       appSpec: APP_SPEC,
     })
   }
-  
+
   /** The name of the app (from the ARC-32 / ARC-56 app spec or override). */
   public get appName() {
     return this.appFactory.appName
   }
-  
+
   /** The ARC-56 app spec being used */
   get appSpec() {
     return APP_SPEC
   }
-  
+
   /** A reference to the underlying `AlgorandClient` this app factory is using. */
   public get algorand(): AlgorandClient {
     return this.appFactory.algorand
   }
-  
+
   /**
    * Returns a new `AppClient` client for an app instance of the given ID.
    *
@@ -282,7 +282,7 @@ export class RealEstateAppFactory {
   public getAppClientById(params: AppFactoryAppClientParams) {
     return new RealEstateAppClient(this.appFactory.getAppClientById(params))
   }
-  
+
   /**
    * Returns a new `AppClient` client, resolving the app by creator address and name
    * using AlgoKit app deployment semantics (i.e. looking for the app creation transaction note).
@@ -330,7 +330,7 @@ export class RealEstateAppFactory {
        * @param params The params for the smart contract call
        * @returns The create params
        */
-      create: (params: CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      create: (params: CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & AppClientCompilationParams & CreateSchema & { onComplete?: OnApplicationComplete.NoOpOC }) => {
         return this.appFactory.params.create(RealEstateAppParamsFactory.create.create(params))
       },
     },
@@ -355,7 +355,7 @@ export class RealEstateAppFactory {
        * @param params The params for the smart contract call
        * @returns The create transaction
        */
-      create: (params: CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      create: (params: CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & AppClientCompilationParams & CreateSchema & { onComplete?: OnApplicationComplete.NoOpOC }) => {
         return this.appFactory.createTransaction.create(RealEstateAppParamsFactory.create.create(params))
       },
     },
@@ -380,7 +380,7 @@ export class RealEstateAppFactory {
        * @param params The params for the smart contract call
        * @returns The create result
        */
-      create: async (params: CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & AppClientCompilationParams & CreateSchema & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      create: async (params: CallParams<RealEstateAppArgs['obj']['create(asset,uint64)void'] | RealEstateAppArgs['tuple']['create(asset,uint64)void']> & AppClientCompilationParams & CreateSchema & SendParams & { onComplete?: OnApplicationComplete.NoOpOC }) => {
         const result = await this.appFactory.send.create(RealEstateAppParamsFactory.create.create(params))
         return { result: { ...result.result, return: result.result.return as unknown as (undefined | RealEstateAppReturns['create(asset,uint64)void']) }, appClient: new RealEstateAppClient(result.appClient) }
       },
@@ -416,7 +416,7 @@ export class RealEstateAppClient {
       appSpec: APP_SPEC,
     })
   }
-  
+
   /**
    * Checks for decode errors on the given return value and maps the return value to the return type for the given method
    * @returns The typed return value or undefined if there was no value
@@ -424,16 +424,16 @@ export class RealEstateAppClient {
   decodeReturnValue<TSignature extends RealEstateAppNonVoidMethodSignatures>(method: TSignature, returnValue: ABIReturn | undefined) {
     return returnValue !== undefined ? getArc56ReturnValue<MethodReturn<TSignature>>(returnValue, this.appClient.getABIMethod(method), APP_SPEC.structs) : undefined
   }
-  
+
   /**
    * Returns a new `RealEstateAppClient` client, resolving the app by creator address and name
    * using AlgoKit app deployment semantics (i.e. looking for the app creation transaction note).
    * @param params The parameters to create the app client
    */
   public static async fromCreatorAndName(params: Omit<ResolveAppClientByCreatorAndName, 'appSpec'>): Promise<RealEstateAppClient> {
-    return new RealEstateAppClient(await _AppClient.fromCreatorAndName({...params, appSpec: APP_SPEC}))
+    return new RealEstateAppClient(await _AppClient.fromCreatorAndName({ ...params, appSpec: APP_SPEC }))
   }
-  
+
   /**
    * Returns an `RealEstateAppClient` instance for the current network based on
    * pre-determined network-specific app IDs specified in the ARC-56 app spec.
@@ -444,29 +444,29 @@ export class RealEstateAppClient {
   static async fromNetwork(
     params: Omit<ResolveAppClientByNetwork, 'appSpec'>
   ): Promise<RealEstateAppClient> {
-    return new RealEstateAppClient(await _AppClient.fromNetwork({...params, appSpec: APP_SPEC}))
+    return new RealEstateAppClient(await _AppClient.fromNetwork({ ...params, appSpec: APP_SPEC }))
   }
-  
+
   /** The ID of the app instance this client is linked to. */
   public get appId() {
     return this.appClient.appId
   }
-  
+
   /** The app address of the app instance this client is linked to. */
   public get appAddress() {
     return this.appClient.appAddress
   }
-  
+
   /** The name of the app. */
   public get appName() {
     return this.appClient.appName
   }
-  
+
   /** The ARC-56 app spec being used */
   public get appSpec() {
     return this.appClient.appSpec
   }
-  
+
   /** A reference to the underlying `AlgorandClient` this app client is using. */
   public get algorand(): AlgorandClient {
     return this.appClient.algorand
@@ -496,7 +496,7 @@ export class RealEstateAppClient {
      * @param params The params for the smart contract call
      * @returns The call params
      */
-    buy: (params: CallParams<RealEstateAppArgs['obj']['buy(pay)void'] | RealEstateAppArgs['tuple']['buy(pay)void']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+    buy: (params: CallParams<RealEstateAppArgs['obj']['buy(pay)void'] | RealEstateAppArgs['tuple']['buy(pay)void']> & { onComplete?: OnApplicationComplete.NoOpOC }) => {
       return this.appClient.params.call(RealEstateAppParamsFactory.buy(params))
     },
 
@@ -526,7 +526,7 @@ export class RealEstateAppClient {
      * @param params The params for the smart contract call
      * @returns The call transaction
      */
-    buy: (params: CallParams<RealEstateAppArgs['obj']['buy(pay)void'] | RealEstateAppArgs['tuple']['buy(pay)void']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+    buy: (params: CallParams<RealEstateAppArgs['obj']['buy(pay)void'] | RealEstateAppArgs['tuple']['buy(pay)void']> & { onComplete?: OnApplicationComplete.NoOpOC }) => {
       return this.appClient.createTransaction.call(RealEstateAppParamsFactory.buy(params))
     },
 
@@ -556,9 +556,9 @@ export class RealEstateAppClient {
      * @param params The params for the smart contract call
      * @returns The call result
      */
-    buy: async (params: CallParams<RealEstateAppArgs['obj']['buy(pay)void'] | RealEstateAppArgs['tuple']['buy(pay)void']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+    buy: async (params: CallParams<RealEstateAppArgs['obj']['buy(pay)void'] | RealEstateAppArgs['tuple']['buy(pay)void']> & SendParams & { onComplete?: OnApplicationComplete.NoOpOC }) => {
       const result = await this.appClient.send.call(RealEstateAppParamsFactory.buy(params))
-      return {...result, return: result.return as unknown as (undefined | RealEstateAppReturns['buy(pay)void'])}
+      return { ...result, return: result.return as unknown as (undefined | RealEstateAppReturns['buy(pay)void']) }
     },
 
   }
@@ -615,13 +615,13 @@ export class RealEstateAppClient {
   public newGroup(): RealEstateAppComposer {
     const client = this
     const composer = this.algorand.newGroup()
-    let promiseChain:Promise<unknown> = Promise.resolve()
+    let promiseChain: Promise<unknown> = Promise.resolve()
     const resultMappers: Array<undefined | ((x: ABIReturn | undefined) => any)> = []
     return {
       /**
        * Add a buy(pay)void method call against the RealEstateApp contract
        */
-      buy(params: CallParams<RealEstateAppArgs['obj']['buy(pay)void'] | RealEstateAppArgs['tuple']['buy(pay)void']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+      buy(params: CallParams<RealEstateAppArgs['obj']['buy(pay)void'] | RealEstateAppArgs['tuple']['buy(pay)void']> & { onComplete?: OnApplicationComplete.NoOpOC }) {
         promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.buy(params)))
         resultMappers.push(undefined)
         return this

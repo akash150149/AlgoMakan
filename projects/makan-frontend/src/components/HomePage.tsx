@@ -51,7 +51,7 @@ const initialProperties: Property[] = [
     escrowAddress: "GSWEDRQCX67RE3GAVS5WXY3QNSV6I37SVEVPRQWNSUQUJ5HNJ5M2E4P67U",
     image: "/assets/beachfront_villa.png",
     description: "A coastal masterpiece featuring an infinity pool and direct beach access. Ultimate luxury.",
-    isSold: false,
+    isSold: true,
   },
   {
     id: "nft-003",
